@@ -1,12 +1,33 @@
+<?php
+include_once 'db/function.php';
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $data = [
+        'full_name' => $_POST['full_name'],
+        'type' => 2, // Set type as 2
+        'username' => $_POST['username'],
+        'email' => $_POST['email'],
+        'department' => $_POST['department'],
+        'password' => password_hash($_POST['password'], PASSWORD_BCRYPT),
+    ];
+
+    $db = new DBFunctions(); // Ensure that this matches the class name and setup in your function file
+    if ($db->insert('users', $data)) {
+        echo "<script>alert('Registration successful'); window.location.href = 'index.php';</script>";
+    } else {
+        echo "Error occurred during registration.";
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registration & Login Form</title>
+    <title>Registration Form</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         /* Form styling */
         .form-card {
@@ -58,38 +79,45 @@
             <img src="assets/images/logo.png" alt="Logo">
             <h2>Register</h2>
         </div>
-        <form>
+
+        <form method="POST" action="register.php">
             <div class="form-group">
                 <label for="registerFullName">Full Name</label>
-                <input type="text" class="form-control" id="registerFullName" placeholder="Enter your full name"
-                    required>
+                <input type="text" class="form-control" id="registerFullName" name="full_name"
+                    placeholder="Enter your full name" required>
             </div>
             <div class="form-group">
                 <label for="registerUsername">Username</label>
-                <input type="text" class="form-control" id="registerUsername" placeholder="Choose a username" required>
+                <input type="text" class="form-control" id="registerUsername" name="username"
+                    placeholder="Choose a username" required>
             </div>
             <div class="form-group">
                 <label for="registerEmail">Email Address</label>
-                <input type="email" class="form-control" id="registerEmail" placeholder="Enter your email" required>
+                <input type="email" class="form-control" id="registerEmail" name="email" placeholder="Enter your email"
+                    required>
             </div>
             <div class="form-group">
                 <label for="registerDepartment">Department</label>
-                <input type="text" class="form-control" id="registerDepartment" placeholder="Enter your department"
-                    required>
+                <input type="text" class="form-control" id="registerDepartment" name="department"
+                    placeholder="Enter your department" required>
             </div>
             <div class="form-group">
                 <label for="registerPassword">Password</label>
-                <input type="password" class="form-control" id="registerPassword" placeholder="Enter your password"
-                    required>
+                <input type="password" class="form-control" id="registerPassword" name="password"
+                    placeholder="Enter your password" required>
             </div>
             <div class="form-group">
                 <label for="registerConfirmPassword">Confirm Password</label>
-                <input type="password" class="form-control" id="registerConfirmPassword"
+                <input type="password" class="form-control" id="registerConfirmPassword" name="confirm_password"
                     placeholder="Confirm your password" required>
             </div>
             <button type="submit" class="btn btn-custom btn-block">Register</button>
+            <a href="index.php" class="btn btn-custom btn-block">Login</a>
+
         </form>
+
     </div>
+
 
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
