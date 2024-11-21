@@ -103,7 +103,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                         data-notes="<?php echo htmlspecialchars($supplier['notes']); ?>"
                                         data-id="<?php echo $supplier['id']; ?>" onclick="populateEditModal(this)">Edit</a>
 
-                                    <a class="dropdown-item" href="#">Delete</a>
+
                                 </div>
                             </div>
                         </td>

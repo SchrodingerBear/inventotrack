@@ -139,7 +139,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                         data-category="<?php echo htmlspecialchars($product['category']); ?>"
                                         data-supplier="<?php echo htmlspecialchars($product['supplier']); ?>"
                                         onclick="populateEditModal(this)">Edit</a>
-                                    <a class="dropdown-item" href="#">Delete</a>
+
                                 </div>
                             </div>
                         </td>

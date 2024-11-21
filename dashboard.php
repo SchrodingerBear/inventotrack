@@ -1,3 +1,15 @@
+<?php
+session_start();
+include_once 'db/function.php';
+
+$function = new DBFunctions();
+
+// Fetch statistics
+$totalProducts = $function->count('products');
+$lowStocks = $function->count('products', 'stock < 10');
+$outOfStocks = $function->count('products', 'stock = 0');
+$totalSuppliers = $function->count('suppliers');
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -18,12 +30,13 @@
 
         <!-- Statistics Row -->
         <div class="row">
+
             <!-- Total Products Card -->
             <div class="col-md-3 mb-4">
                 <div class="card text-white bg-primary">
                     <div class="card-body">
                         <h5 class="card-title">Total Products</h5>
-                        <p class="card-text display-4">30</p>
+                        <p class="card-text display-4"><?php echo $totalProducts; ?></p>
                     </div>
                 </div>
             </div>
@@ -33,7 +46,7 @@
                 <div class="card text-white bg-warning">
                     <div class="card-body">
                         <h5 class="card-title">Low Stocks</h5>
-                        <p class="card-text display-4">30</p>
+                        <p class="card-text display-4"><?php echo $lowStocks; ?></p>
                     </div>
                 </div>
             </div>
@@ -43,7 +56,7 @@
                 <div class="card text-white bg-danger">
                     <div class="card-body">
                         <h5 class="card-title">Out of Stocks</h5>
-                        <p class="card-text display-4">30</p>
+                        <p class="card-text display-4"><?php echo $outOfStocks; ?></p>
                     </div>
                 </div>
             </div>
@@ -53,7 +66,7 @@
                 <div class="card text-white bg-success">
                     <div class="card-body">
                         <h5 class="card-title">Suppliers</h5>
-                        <p class="card-text display-4">5</p>
+                        <p class="card-text display-4"><?php echo $totalSuppliers; ?></p>
                     </div>
                 </div>
             </div>

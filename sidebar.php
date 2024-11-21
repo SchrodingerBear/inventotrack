@@ -107,7 +107,7 @@
                 <a class="nav-link text-white" href="supplier.php"><i class="fas fa-truck"></i> Supplier</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-white" href="#settings.php"><i class="fas fa-cog"></i> Settings</a>
+                <a class="nav-link text-white" href="settings.php"><i class="fas fa-cog"></i> Settings</a>
             </li>
 
             <li class="nav-item">
