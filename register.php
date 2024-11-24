@@ -1,7 +1,8 @@
 <?php
 include_once 'db/function.php';
-
+$db = new DBFunctions();
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    // Capture user registration data
     $data = [
         'full_name' => $_POST['full_name'],
         'type' => 2, // Set type as 2
@@ -11,9 +12,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         'password' => password_hash($_POST['password'], PASSWORD_BCRYPT),
     ];
 
-    $db = new DBFunctions(); // Ensure this matches the class name in your function file
 
-    // Check for duplicate username or email
+
     $username_exists = !empty($db->select('users', '*', ['username' => $data['username']]));
     $email_exists = !empty($db->select('users', '*', ['email' => $data['email']]));
 
@@ -25,10 +25,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     } else {
         // Insert the new user if no duplicates found
         if ($db->insert('users', $data)) {
+            // Generate OTP
+            $otp = rand(100000, 999999);
+
+            session_start();
+            $_SESSION['otp'] = $otp;
+
+            // Send OTP email
+            $otpResponse = $db->sendOtpEmail($data['email'], $otp);
+
             echo "<script>
-                    alert('Registration successful');
-                    window.location.href = 'index.php';
-                  </script>";
+                        alert('Registration successful. Please check your email for OTP.');
+                        window.location.href = 'verify_otp.php'; // Redirect to OTP verification page
+                      </script>";
+
         } else {
             echo "Error occurred during registration.";
         }
