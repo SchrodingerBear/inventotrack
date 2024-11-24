@@ -102,6 +102,48 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <h2>Stocks</h2>
         <button class="btn btn-primary mb-3" data-toggle="modal" data-target="#addItemModal">Add Item</button>
 
+        <button id="generateReport" class="btn btn-success mb-3">Generate Report</button>
+        <script>
+            document.getElementById('generateReport').addEventListener('click', function () {
+                var table = document.getElementById('stocksTable');
+                var newWindow = window.open('', '', 'width=800,height=600');
+
+                // Remove the last column (Action column) from the table
+                var rows = table.getElementsByTagName('tr');
+                for (var i = 0; i < rows.length; i++) {
+                    var cells = rows[i].getElementsByTagName('td');
+                    if (cells.length > 0) {
+                        rows[i].deleteCell(cells.length - 1); // Remove the last td
+                    }
+                    var headers = rows[i].getElementsByTagName('th');
+                    if (headers.length > 0) {
+                        rows[i].deleteCell(headers.length - 1); // Remove the last th (header)
+                    }
+                }
+
+                // Adding CSS for landscape orientation and table borders
+                newWindow.document.write('<html><head><title>Report</title>');
+                newWindow.document.write('<style>');
+                newWindow.document.write('body { font-family: Arial, sans-serif; }');
+                newWindow.document.write('table { width: 100%; border-collapse: collapse; border: 1px solid #ddd; }');
+                newWindow.document.write('th, td { padding: 8px; text-align: left; border: 1px solid #ddd; }');
+                newWindow.document.write('th { background-color: #f2f2f2; }');
+                newWindow.document.write('@media print {');
+                newWindow.document.write('@page { size: landscape; }'); // Landscape orientation
+                newWindow.document.write('body { margin: 0; }'); // Remove any default margin
+                newWindow.document.write('}'); // End print media query
+                newWindow.document.write('</style>');
+                newWindow.document.write('</head><body>');
+
+                newWindow.document.write('<h2>Supplier Report</h2>');
+                newWindow.document.write(table.outerHTML); // Copy the table's HTML content
+                newWindow.document.write('</body></html>');
+
+                newWindow.document.close();
+                newWindow.print(); // Trigger print dialog
+            });
+        </script>
+
 
         <table id="stocksTable" class="table table-striped table-bordered">
             <thead>
@@ -139,6 +181,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                         data-category="<?php echo htmlspecialchars($product['category']); ?>"
                                         data-supplier="<?php echo htmlspecialchars($product['supplier']); ?>"
                                         onclick="populateEditModal(this)">Edit</a>
+                                    <a href="stock.php?delete=<?php echo $product['id'] ?>&table=products"
+                                        class="dropdown-item" href="#">Delete</a>
 
                                 </div>
                             </div>
