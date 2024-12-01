@@ -1,6 +1,6 @@
 <?php
 include_once 'db.php';
-require '../vendor/autoload.php'; // Include Composer autoload
+require 'vendor/autoload.php'; // Include Composer autoload
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
